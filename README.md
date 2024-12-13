@@ -95,9 +95,14 @@ Optionally, you can add a backup process to the DB. Check the ./backup folder.
 You can build the suggested image via `docker build -t katpool-backup:0.4 .` and uncomment its part in the docker-compose.yml file.
 We recommend to transfer the database dump files to other location as additional protection.
 
-For cloud backup add google credentials file from google cloud console 
-  - add it to backup folder as "google-credentials.json"
-  - add the email address to access the dump file in config as "backupEmailAddress"
+For cloud backup get google credentials file from google cloud console 
+  - Add that json file to backup folder as "google-credentials.json"
+  - Configure the email address to access the dump file in config as "backupEmailAddress"
+Then execute the below commads:
+```bash
+  cd backup/
+  bun run cloudBackup.ts fileName.sql
+```
 
 ## How to install locally using bun (not recommended)
 To install dependencies:
