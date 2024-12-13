@@ -21,5 +21,6 @@
   },
   "treasury": {
     "fee": 5
-  }
+  },
+  "backupEmailAddress": ""
 }
