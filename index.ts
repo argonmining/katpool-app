@@ -82,6 +82,14 @@ try{
 
 monitoring.log(`Main: RPC connection started`)
 
+try {
+  const serverInfoTest = await rpc.getServerInfo();
+  console.log("server info: ", serverInfoTest)
+} catch(err)
+{
+  console.log("Error while getting server info: ", err)
+}
+
 const serverInfo = await rpc.getServerInfo();
 if (!serverInfo.isSynced || !serverInfo.hasUtxoIndex) throw Error('Provided node is either not synchronized or lacks the UTXO index.');
 
