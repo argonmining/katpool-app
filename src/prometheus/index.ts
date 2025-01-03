@@ -16,6 +16,13 @@ export const minerHashRateGauge = new Gauge({
   labelNames: ['miner_id', 'wallet_address']
 });
 
+// Existing Gauges
+export const workerHashRateGauge = new Gauge({
+  name: 'worker_hash_rate_GHps',
+  help: 'Hash rate of worker',
+  labelNames: ['wokername', 'wallet_address']
+});
+
 export const poolHashRateGauge = new Gauge({
   name: 'pool_hash_rate_GHps',
   help: 'Overall hash rate of the pool',

@@ -3,7 +3,7 @@ import { calculateTarget } from "../../wasm/kaspa";
 import { Pushgateway } from 'prom-client';
 import { type Worker } from './server';
 import type { RegistryContentType } from 'prom-client';
-import { stringifyHashrate, getAverageHashrateGHs } from './utils';
+import { stringifyHashrate, getAvgHashRateWorkerWise } from './utils';
 import Monitoring from '../monitoring';
 import { DEBUG } from '../../index';
 import {
@@ -14,7 +14,8 @@ import {
   minerInvalidShares,
   minerStaleShares,
   minerDuplicatedShares,
-  varDiff
+  varDiff,
+  workerHashRateGauge
 } from '../prometheus';
 import { metrics } from '../../index';
 // Fix the import statement
@@ -34,7 +35,7 @@ export interface WorkerStats {
   varDiffSharesFound: number;
   varDiffWindow: number;
   minDiff: number;
-  recentShares: Denque<{ timestamp: number, difficulty: number }>;
+  recentShares: Denque<{ timestamp: number, difficulty: number, workerName: string }>;
   hashrate: number; // Added hashrate property
 }
 
@@ -87,7 +88,7 @@ export class SharesManager {
         varDiffSharesFound: 0,
         varDiffWindow: 0,
         minDiff: 1, // Set to initial difficulty
-        recentShares: new Denque<{ timestamp: number, difficulty: number }>(), // Initialize denque correctly
+        recentShares: new Denque<{ timestamp: number, difficulty: number, workerName: string }>(), // Initialize denque correctly
         hashrate: 0 // Initialize hashrate property
       };
       minerData.workerStats = workerStats;
@@ -132,7 +133,7 @@ export class SharesManager {
           varDiffSharesFound: 0,
           varDiffWindow: 0,
           minDiff: currentDifficulty,
-          recentShares: new Denque<{ timestamp: number, difficulty: number }>(), // Initialize recentShares
+          recentShares: new Denque<{ timestamp: number, difficulty: number, workerName: string }>(), // Initialize recentShares
           hashrate: 0 // Initialize hashrate property
         }
       };
@@ -175,7 +176,7 @@ export class SharesManager {
     minerData.workerStats.minDiff = currentDifficulty;
 
     // Update recentShares with the new share
-    minerData.workerStats.recentShares.push({ timestamp: Date.now(), difficulty: currentDifficulty });
+    minerData.workerStats.recentShares.push({ timestamp: Date.now(), difficulty: currentDifficulty, workerName: minerId });
 
     const windowSize = 10 * 60 * 1000; // 10 minutes window
     while (minerData.workerStats.recentShares.length > 0 && Date.now() - minerData.workerStats.recentShares.peekFront()!.timestamp > windowSize) {
@@ -195,7 +196,12 @@ export class SharesManager {
 
       this.miners.forEach((minerData, address) => {
         const stats = minerData.workerStats;
-        const rate = getAverageHashrateGHs(stats);
+        let rate = 0
+        const workerWiseHashRate = getAvgHashRateWorkerWise(stats)
+        workerWiseHashRate.forEach((workerRate, workerName) =>{
+          rate += workerRate
+          metrics.updateGaugeValue(workerHashRateGauge, [workerName, address], workerRate);
+        })
         totalRate += rate;
         const rateStr = stringifyHashrate(rate);
         const ratioStr = `${stats.sharesFound}/${stats.staleShares}/${stats.invalidShares}`;
