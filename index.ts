@@ -84,10 +84,10 @@ monitoring.log(`Main: RPC connection started`)
 
 try {
   const serverInfoTest = await rpc.getServerInfo();
-  monitoring.log("server info: ", serverInfoTest)
+  monitoring.log(`server info: ${serverInfoTest}`)
 } catch(err)
 {
-  monitoring.error("Error while getting server info: ", err)
+  monitoring.error(`Error while getting server info: ${err}`)
 }
 
 const serverInfo = await rpc.getServerInfo();
