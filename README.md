@@ -460,5 +460,3 @@ The `Pool` class is designed to manage the interactions between the mining pool'
      - Calculates the total work done by miners.
      - Logs the allocation event.
      - Allocates the rewards proportionally based on the miners' contributions.
-
-.
