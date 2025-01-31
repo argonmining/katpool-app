@@ -242,6 +242,7 @@ services:
 
   katpool-backup:
     image: ghcr.io/argonmining/katpool-app-db-backup:beta-v1.0.2-main
+    pull_policy: always
     container_name: katpool-backup
     depends_on:
       - postgres
@@ -251,6 +252,8 @@ services:
       - /root/docker_deployment/backup/files:/backup/files
       - ./config:/config
       - ./backup/google-credentials.json:/app/google-credentials.json
+      - ./src/monitoring:/src/monitoring
+      - ./src/cron-schedule.ts:/src/cron-schedule.ts
     networks:
       - backend
     restart: always

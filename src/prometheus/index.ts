@@ -91,7 +91,7 @@ export const successBlocksDetailsGauge = new Gauge({
 export const jobsNotFound = new Gauge({
   name: 'jobs_not_found_1min_count',
   help: 'Total jobs not Found for registered template',
-  labelNames: ['miner_id', 'pool_address']
+  labelNames: ['miner_id', 'wallet_address']
 });
 
 export const varDiff = new Gauge({
@@ -154,7 +154,7 @@ export class PushMetrics {
       // await this.updateMinerRewardGauge(walletAddress, minerId, blockHash);
       this.monitoring.log(`PushMetrics: Metrics pushed to Pushgateway`);
     } catch (err) {
-      console.error(`[${new Date().toISOString()}] PushMetrics: ERROR: Error pushing metrics to Pushgateway:`, err);
+      this.monitoring.error(`PushMetrics: Error pushing metrics to Pushgateway: ${err}`);
     }
   }
 

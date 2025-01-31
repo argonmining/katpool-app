@@ -62,6 +62,14 @@ In `prometheus.yml` **update the targets**.
 
 Check `config/config.json` and do the required configurations to your pool.
 
+Please refer to [Crontab.guru](https://crontab.guru/) to set these two cron expressions.
+
+* **payoutCronSchedule**: cron schedule expression for payout. If not set or invalid, it will be defaulted to Twice a day (* */12 * * *).
+
+* **backupCronSchedule**: cron schedule expression for backup. If not set or invalid, it will be defaulted to Twice a day (* */12 * * *).
+
+* **thresholdAmount**: Miner rewards will be paid above this minimum amount in sompi
+
 * **block_wait_time_seconds**: time to wait since last new block message from kaspad before manually requesting a new block. 
 
   * **Note**: It is to be set in **seconds**.

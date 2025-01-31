@@ -106,7 +106,7 @@ export class SharesManager {
     // Critical Section: Check and Add Share
     if (this.contributions.has(nonce)) {
       metrics.updateGaugeInc(minerDuplicatedShares, [minerId, address]);
-      console.log('Duplicate share for miner : ', minerId);
+      this.monitoring.log(`Duplicate share for miner : ${minerId}`);
       return;
     } else {
       // this.contributions.set(nonce, { address, difficulty, timestamp: Date.now(), minerId });
@@ -229,7 +229,7 @@ export class SharesManager {
         return acc + total;
       }, 0).toString().padEnd(12)} | ${(Date.now() - start) / 1000}s`;
       str += "\n===============================================================================\n";
-      console.log(str);
+      this.monitoring.log(str);
     }, 600000); // 10 minutes
   }
 

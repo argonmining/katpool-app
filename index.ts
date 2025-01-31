@@ -13,7 +13,7 @@ import path from 'path';
 import { ExitStatus, getParsedCommandLineOfConfigFile } from "typescript";
 
 function shutdown() {
-  console.log("\n\n Gracefully shutting down the pool")
+  monitoring.log("\n\n Gracefully shutting down the pool")
   process.exit();
 }
 

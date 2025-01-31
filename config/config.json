@@ -23,7 +23,8 @@
   "treasury": {
     "fee": 0
   },
-  "payoutsPerDay": 2,
+  "payoutCronSchedule": "* */12 * * *",
+  "backupCronSchedule": "* */12 * * *",
   "thresholdAmount": "500000000",
   "backupEmailAddress": "socials@onargon.com"
 }
