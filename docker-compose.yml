@@ -136,7 +136,7 @@ services:
       - postgres
       - redis
       - katpool-monitor
-      - pushgateway
+      # - pushgateway
     ports:
       - "8888:7777"
     networks:
@@ -210,16 +210,16 @@ services:
       options:
         tag: "{{.Name}}"
 
-  pushgateway:
-    image: prom/pushgateway
-    container_name: katpool-pushgateway
-    networks:
-      - backend
-    restart: always
-    logging:
-      driver: journald
-      options:
-        tag: "{{.Name}}"
+  # pushgateway:
+  #   image: prom/pushgateway
+  #   container_name: katpool-pushgateway
+  #   networks:
+  #     - backend
+  #   restart: always
+  #   logging:
+  #     driver: journald
+  #     options:
+  #       tag: "{{.Name}}"
 
   nginx:
     container_name: katpool-nginx
