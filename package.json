@@ -6,6 +6,7 @@
   "devDependencies": {
     "@types/blake2b": "^2.1.3",
     "@types/bun": "latest",
+    "@types/express": "^5.0.0",
     "@types/json-bigint": "^1.0.4",
     "@types/pg": "^8.11.6"
   },
@@ -20,6 +21,7 @@
     "consul-client": "^5.0.0",
     "denque": "^2.1.0",
     "dotenv": "^16.4.5",
+    "express": "^4.21.2",
     "fs": "^0.0.1-security",
     "json-bigint": "^1.0.0",
     "lmdb": "^3.0.11",
